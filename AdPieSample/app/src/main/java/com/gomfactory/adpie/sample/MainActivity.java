@@ -5,11 +5,12 @@
 package com.gomfactory.adpie.sample;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gomfactory.adpie.sdk.AdPieError;
@@ -34,11 +35,10 @@ public class MainActivity extends AppCompatActivity
         // Insert your AdPie-Media-ID
         AdPieSDK.getInstance().initialize(getApplicationContext(), "56b050727174ea1199cf8ed1");
 
-        // Insert your AdPie-Slot-ID
-        interstitialAd = new InterstitialAd(this, "56b050727174ea1199cf8ed3");
-        interstitialAd.setAdListener(this);
-
         setContentView(R.layout.activity_main);
+
+        TextView textView = (TextView) findViewById(R.id.tv2);
+        textView.setText("AdPie SDK Version : " + AdPieSDK.getInstance().getVersion());
 
         adView = (AdView) findViewById(R.id.adView);
         adView.setAdListener(new com.gomfactory.adpie.sdk.AdView.AdListener() {
@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity
                 interstitialAd.load();
             }
         });
+
+        // Insert your AdPie-Slot-ID
+        interstitialAd = new InterstitialAd(this, "56b050727174ea1199cf8ed3");
+        interstitialAd.setAdListener(this);
     }
 
     @Override
