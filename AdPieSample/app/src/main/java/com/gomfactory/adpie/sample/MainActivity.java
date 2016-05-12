@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         // Insert your AdPie-Media-ID
-        AdPieSDK.getInstance().initialize(getApplicationContext(), "56b050727174ea1199cf8ed1");
+        AdPieSDK.getInstance().initialize(getApplicationContext(), "57342d1b7174ea39844cac10");
 
         setContentView(R.layout.activity_main);
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         // Insert your AdPie-Slot-ID
-        interstitialAd = new InterstitialAd(this, "56b050727174ea1199cf8ed3");
+        interstitialAd = new InterstitialAd(this, "57342e3d7174ea39844cac14");
         interstitialAd.setAdListener(this);
     }
 

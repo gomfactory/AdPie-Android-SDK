@@ -45,6 +45,6 @@
         android:id="@+id/adView"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        slotID="56b050727174ea1199cf8ed2" >
+        slotID="57342e0d7174ea39844cac13" >
     </com.gomfactory.adpie.sdk.AdView>
 </RelativeLayout>
