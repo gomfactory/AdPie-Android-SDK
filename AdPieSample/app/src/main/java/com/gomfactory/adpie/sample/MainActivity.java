@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAdLoaded() {
+        printMessage(MainActivity.this, "Interstitial onAdLoaded");
         if (interstitialAd.isLoaded()) {
             interstitialAd.show();
         }
