@@ -1,6 +1,9 @@
 
 # 변경내역
 
+## 1.0.7 (2016년 6월 7일)
+- AndroidManifest.xml에서 application 속성값 제거 (supportsRtl="true" 등)
+
 ## 1.0.6 (2016년 5월 18일)
 - 버그 수정
 - NullpointerException 보고에 대한 처리
