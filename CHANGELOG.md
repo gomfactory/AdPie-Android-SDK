@@ -1,6 +1,9 @@
 
 # 변경내역
 
+## 1.0.8 (2016년 6월 15일)
+- SDK 초기화 관련 기능 개선
+
 ## 1.0.7 (2016년 6월 7일)
 - AndroidManifest.xml에서 application 속성값 제거 (supportsRtl="true" 등)
 
