@@ -5,121 +5,167 @@
 package com.gomfactory.adpie.sample;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.gomfactory.adpie.sdk.AdPieError;
 import com.gomfactory.adpie.sdk.AdPieSDK;
-import com.gomfactory.adpie.sdk.AdView;
-import com.gomfactory.adpie.sdk.InterstitialAd;
 
-public class MainActivity extends AppCompatActivity
-        implements InterstitialAd.InterstitialAdListener {
+import java.util.ArrayList;
 
-    public static final String TAG = MainActivity.class.getSimpleName();
+public class MainActivity extends AppCompatActivity {
 
-    private AdView adView;
-    private InterstitialAd interstitialAd;
-
-    private Button button;
+    private long lastTimeSelected = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Insert your AdPie-Media-ID
-        AdPieSDK.getInstance().initialize(getApplicationContext(), "57342d1b7174ea39844cac10");
+        AdPieSDK.getInstance().initialize(getApplicationContext(), getString(R.string.mid));
 
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        TextView textView = (TextView) findViewById(R.id.tv2);
-        textView.setText("AdPie SDK Version : " + AdPieSDK.getInstance().getVersion());
+        ListViewAdapter adapter = new ListViewAdapter();
+        ListView listview = (ListView) findViewById(R.id.listview);
+        listview.setAdapter(adapter);
 
-        adView = (AdView) findViewById(R.id.adView);
-        adView.setAdListener(new com.gomfactory.adpie.sdk.AdView.AdListener() {
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
+                "Banner Ad", "배너 광고");
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
+                "Interstitial Ad", "전면 광고");
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
+                "Native Ad", "네이티브 광고");
 
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onAdLoaded() {
-                printMessage(MainActivity.this, "AdView onAdLoaded");
-            }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                printMessage(MainActivity.this, "AdView onAdFailedToLoad "
-                        + AdPieError.getMessage(errorCode));
-            }
+                Long now = System.currentTimeMillis();
+                if ((now - lastTimeSelected) > 500) {
+                    lastTimeSelected = now;
+                } else {
+                    return;
+                }
 
-            @Override
-            public void onAdClicked() {
-                printMessage(MainActivity.this, "AdView onAdClicked");
+                Intent intent = null;
+                switch (position) {
+                    case 0:
+                        intent = new Intent(MainActivity.this, BannerAdActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                    case 1:
+                        intent = new Intent(MainActivity.this, InterstitialAdActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(MainActivity.this, NativeAdActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                }
             }
         });
+    }
 
-        adView.load();
+    private class ListViewItem {
+        private Drawable iconDrawable;
+        private String titleStr;
+        private String descStr;
 
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                interstitialAd.load();
+        public void setIcon(Drawable icon) {
+            iconDrawable = icon;
+        }
+
+        public void setTitle(String title) {
+            titleStr = title;
+        }
+
+        public void setDesc(String desc) {
+            descStr = desc;
+        }
+
+        public Drawable getIcon() {
+            return this.iconDrawable;
+        }
+
+        public String getTitle() {
+            return this.titleStr;
+        }
+
+        public String getDesc() {
+            return this.descStr;
+        }
+    }
+
+    private class ListViewAdapter extends BaseAdapter {
+        private ArrayList<ListViewItem> listViewItemList = new ArrayList<ListViewItem>();
+
+        public ListViewAdapter() {
+        }
+
+        @Override
+        public int getCount() {
+            return listViewItemList.size();
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            final int pos = position;
+            final Context context = parent.getContext();
+
+            // "listview_item" Layout을 inflate하여 convertView 참조 획득.
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.productlist_item, parent, false);
             }
-        });
 
-        // Insert your AdPie-Slot-ID
-        interstitialAd = new InterstitialAd(this, "57342e3d7174ea39844cac14");
-        interstitialAd.setAdListener(this);
-    }
+            // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
+            ImageView iconImageView = (ImageView) convertView.findViewById(R.id.imageView1);
+            TextView titleTextView = (TextView) convertView.findViewById(R.id.textView1);
+            TextView descTextView = (TextView) convertView.findViewById(R.id.textView2);
 
-    @Override
-    protected void onDestroy() {
-        if (adView != null) {
-            adView.destroy();
-            adView = null;
+            // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+            ListViewItem listViewItem = listViewItemList.get(position);
+
+            // 아이템 내 각 위젯에 데이터 반영
+            iconImageView.setImageDrawable(listViewItem.getIcon());
+            titleTextView.setText(listViewItem.getTitle());
+            descTextView.setText(listViewItem.getDesc());
+
+            return convertView;
         }
 
-        super.onDestroy();
-    }
-
-    @Override
-    public void onAdLoaded() {
-        printMessage(MainActivity.this, "Interstitial onAdLoaded");
-        if (interstitialAd.isLoaded()) {
-            interstitialAd.show();
+        @Override
+        public long getItemId(int position) {
+            return position;
         }
-    }
 
-    @Override
-    public void onAdFailedToLoad(int errorCode) {
-        printMessage(MainActivity.this, "Interstitial onAdFailedToLoad "
-                + AdPieError.getMessage(errorCode));
-    }
+        @Override
+        public Object getItem(int position) {
+            return listViewItemList.get(position);
+        }
 
-    @Override
-    public void onAdShown() {
-        printMessage(MainActivity.this, "Interstitial onAdShown");
-    }
+        public void addItem(Drawable icon, String title, String desc) {
+            ListViewItem item = new ListViewItem();
 
-    @Override
-    public void onAdClicked() {
-        printMessage(MainActivity.this, "Interstitial onAdClicked");
-    }
+            item.setIcon(icon);
+            item.setTitle(title);
+            item.setDesc(desc);
 
-    @Override
-    public void onAdDismissed() {
-        printMessage(MainActivity.this, "Interstitial onAdDismissed");
-    }
-
-
-    public void printMessage(Context context, String message) {
-        Log.d(TAG, message);
-
-        if (context != null) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            listViewItemList.add(item);
         }
     }
 }

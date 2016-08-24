@@ -25,6 +25,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_product_list" />
+    <include layout="@layout/content_interstitial" />
 
 </android.support.design.widget.CoordinatorLayout>

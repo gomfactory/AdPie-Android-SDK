@@ -4,4 +4,8 @@
 
 <resources>
     <string name="app_name">AdPieSample</string>
+    <string name="mid">57342d1b7174ea39844cac10</string>
+    <string name="banner_sid">57342e0d7174ea39844cac13</string>
+    <string name="interstitial_sid">57342e3d7174ea39844cac14</string>
+    <string name="native_sid">57bd1f3f7174ea576fa3c3a3</string>
 </resources>
