@@ -36,6 +36,8 @@ public class NativeAdActivity extends AppCompatActivity {
 
     private NativeAd nativeAd = null;
 
+    private int adIdx = 5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +95,7 @@ public class NativeAdActivity extends AppCompatActivity {
                     // 기본 값으로 이미지 관련 리소스 로딩 완료
                     // 이미지 관련 리소스 로딩 완료
 
-                    ((ListViewAdapter) listview.getAdapter()).addItem(10, nativeAdView);
+                    ((ListViewAdapter) listview.getAdapter()).addItem(adIdx, nativeAdView);
                     ((ListViewAdapter) listview.getAdapter()).notifyDataSetChanged();
                 }else{
                     // nativeAd.setSkipDownload(true)를 호출한 경우로 이미지 다운로드 필요
@@ -105,7 +107,7 @@ public class NativeAdActivity extends AppCompatActivity {
                         nativeAdView.downloadResource(new NativeAdView.ResourceLoadEventListener() {
                             @Override
                             public void onSuccess() {
-                                ((ListViewAdapter) listview.getAdapter()).addItem(10, nativeAdView);
+                                ((ListViewAdapter) listview.getAdapter()).addItem(adIdx, nativeAdView);
                                 ((ListViewAdapter) listview.getAdapter()).notifyDataSetChanged();
                             }
 
@@ -238,6 +240,9 @@ public class NativeAdActivity extends AppCompatActivity {
         }
 
         public void addItem(int index, Object item) {
+            if (listViewItemList.get(index) instanceof NativeAdView) {
+                listViewItemList.remove(index);
+            }
             listViewItemList.add(index, item);
         }
     }
