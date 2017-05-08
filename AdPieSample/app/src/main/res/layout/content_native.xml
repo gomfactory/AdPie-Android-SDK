@@ -24,30 +24,30 @@
         android:paddingTop="@dimen/activity_vertical_margin" >
 
         <TextView
-            android:id="@+id/tvName"
+            android:id="@+id/text_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
 
         <TextView
-            android:id="@+id/tvVersion"
+            android:id="@+id/text_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvName"
+            android:layout_below="@id/text_app_name"
             android:text="" />
 
         <TextView
-            android:id="@+id/tvMediaId"
+            android:id="@+id/text_media_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvVersion"
+            android:layout_below="@id/text_version"
             android:text="" />
 
         <TextView
-            android:id="@+id/tvSlotId"
+            android:id="@+id/text_slot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvMediaId"
+            android:layout_below="@id/text_media_id"
             android:text="" />
 
         <ListView
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_below="@id/tvSlotId" />
+            android:layout_below="@id/text_slot" />
 
     </RelativeLayout>
 

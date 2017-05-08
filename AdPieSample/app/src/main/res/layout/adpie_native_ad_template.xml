@@ -59,4 +59,15 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/native_ad_cta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/native_ad_main"
+        android:layout_alignWithParentIfMissing="true"
+        android:background="@color/accent"
+        android:textColor="@color/primary_text"/>
+
 </RelativeLayout>

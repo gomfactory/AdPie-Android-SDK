@@ -21,21 +21,16 @@ public class AdPieBanner implements CustomEventBanner {
     public void onDestroy() {
         if (adView != null) {
             adView.destroy();
+            adView = null;
         }
     }
 
     @Override
     public void onPause() {
-        if (adView != null) {
-            adView.pause();
-        }
     }
 
     @Override
     public void onResume() {
-        if (adView != null) {
-            adView.resume();
-        }
     }
 
     @Override

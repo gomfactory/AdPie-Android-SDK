@@ -57,16 +57,16 @@ public class NativeAdActivity extends AppCompatActivity {
             }
         });
 
-        TextView tvName = (TextView) findViewById(R.id.tvName);
+        TextView tvName = (TextView) findViewById(R.id.text_app_name);
         tvName.setText(getString(R.string.app_name));
 
-        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
+        TextView tvVersion = (TextView) findViewById(R.id.text_version);
         tvVersion.setText("AdPie SDK Version : " + AdPieSDK.getInstance().getVersion());
 
-        TextView tvMediaId = (TextView) findViewById(R.id.tvMediaId);
+        TextView tvMediaId = (TextView) findViewById(R.id.text_media_id);
         tvMediaId.setText("Media ID : " + getString(R.string.mid));
 
-        TextView tvSlotId = (TextView) findViewById(R.id.tvSlotId);
+        TextView tvSlotId = (TextView) findViewById(R.id.text_slot);
         tvSlotId.setText("Slot ID : " + getString(R.string.native_sid));
 
         ListViewAdapter adapter = new ListViewAdapter();
@@ -82,6 +82,7 @@ public class NativeAdActivity extends AppCompatActivity {
                 .setDescriptionId(R.id.native_ad_description)
                 .setMainId(R.id.native_ad_main)
                 .setIconImageId(R.id.native_ad_icon)
+                .setCallToActionId(R.id.native_ad_cta)
                 .build();
 
         nativeAd = new NativeAd(this, viewBinder);

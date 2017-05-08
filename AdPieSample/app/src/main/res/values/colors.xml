@@ -20,4 +20,5 @@
     <color name="btn_enter">#26ae90</color>
     <color name="btn_enter_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
+    <color name="black">#000000</color>
 </resources>

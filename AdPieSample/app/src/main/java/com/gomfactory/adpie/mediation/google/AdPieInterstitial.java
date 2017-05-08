@@ -45,11 +45,9 @@ public class AdPieInterstitial implements CustomEventInterstitial {
 
     @Override
     public void onPause() {
-
     }
 
     @Override
     public void onResume() {
-
     }
 }

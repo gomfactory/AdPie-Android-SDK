@@ -47,23 +47,23 @@ public class InterstitialAdActivity extends AppCompatActivity
             }
         });
 
-        TextView tvName = (TextView) findViewById(R.id.tvName);
+        TextView tvName = (TextView) findViewById(R.id.text_app_name);
         tvName.setText(getString(R.string.app_name));
 
-        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
+        TextView tvVersion = (TextView) findViewById(R.id.text_version);
         tvVersion.setText("AdPie SDK Version : " + AdPieSDK.getInstance().getVersion());
 
-        TextView tvMediaId = (TextView) findViewById(R.id.tvMediaId);
+        TextView tvMediaId = (TextView) findViewById(R.id.text_media_id);
         tvMediaId.setText("Media ID : " + getString(R.string.mid));
 
-        TextView tvSlotId = (TextView) findViewById(R.id.tvSlotId);
+        TextView tvSlotId = (TextView) findViewById(R.id.text_slot);
         tvSlotId.setText("Slot ID : " + getString(R.string.interstitial_sid));
 
         // Insert your AdPie-Slot-ID
         interstitialAd = new InterstitialAd(this, getString(R.string.interstitial_sid));
         interstitialAd.setAdListener(this);
 
-        button = (Button) findViewById(R.id.button);
+        button = (Button) findViewById(R.id.button_interstitial_ad);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +74,11 @@ public class InterstitialAdActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
+
+        if (interstitialAd != null) {
+            interstitialAd.destroy();
+            interstitialAd = null;
+        }
 
         super.onDestroy();
     }
