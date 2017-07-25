@@ -58,6 +58,7 @@ public class BannerAdActivity extends AppCompatActivity {
         adView = (AdView) findViewById(R.id.ad_view);
         // Insert your AdPie-Slot-ID
         adView.setSlotId(getString(R.string.banner_sid));
+        adView.setScaleUp(true);
         adView.setAdListener(new AdView.AdListener() {
 
             @Override
