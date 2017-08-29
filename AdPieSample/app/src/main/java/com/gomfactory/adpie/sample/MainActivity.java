@@ -5,7 +5,9 @@
 package com.gomfactory.adpie.sample;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -21,12 +23,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gomfactory.adpie.sdk.AdPieSDK;
+import com.gomfactory.adpie.sdk.DialogAd;
+import com.gomfactory.adpie.sdk.dialog.DialogStyle;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private long lastTimeSelected = 0;
+
+    private DialogAd dialogAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +90,95 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        DialogStyle dialogStyle = new DialogStyle.Builder()
+                .setAdSize(DialogStyle.DIALOG_SIZE_250x250) // 필수
+                .setDefaultImageResId(R.drawable.coffee_500x500) // 필수
+                .build();
+
+        dialogAd = new DialogAd(MainActivity.this, dialogStyle, getString(R.string.dialog_sid_250x250));
+        dialogAd.setDialogAdListenr(new DialogAd.DialogAdListener() {
+            @Override
+            public void onFirstButtonClicked() {
+                if (dialogAd != null) {
+                    // 다이얼로그 취소
+                    dialogAd.cancel();
+                }
+            }
+
+            @Override
+            public void onSecondButtonClicked() {
+                // 앱 종료
+                finish();
+            }
+
+            @Override
+            public void onThirdButtonClicked() {
+            }
+
+            @Override
+            public void onAdLoaded() {
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+
+            }
+
+            @Override
+            public void onAdClicked() {
+
+            }
+        });
+        dialogAd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                // 다이얼로그 취소 이벤트 발생
+            }
+        });
+        dialogAd.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                // 다이얼로그 종료 이벤트 발생
+            }
+        });
+        dialogAd.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                // 다이얼로그 표출 이벤트 발생
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (dialogAd != null) {
+            // 다이얼로그 종료
+            dialogAd.dismiss();
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (dialogAd != null) {
+            // 다이얼로그 표출
+            dialogAd.show();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // 회전 앱의 경우 필수 구현
+        if (dialogAd != null) {
+            dialogAd.dismiss();
+        }
     }
 
     private class ListViewItem {
