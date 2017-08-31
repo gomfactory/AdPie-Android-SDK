@@ -100,10 +100,6 @@ public class MainActivity extends AppCompatActivity {
         dialogAd.setDialogAdListenr(new DialogAd.DialogAdListener() {
             @Override
             public void onFirstButtonClicked() {
-                if (dialogAd != null) {
-                    // 다이얼로그 취소
-                    dialogAd.cancel();
-                }
             }
 
             @Override
