@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 .setClickUrl("http://www.adpies.com")
                 .build();
 
-        dialogAd = new DialogAdV2(MainActivity.this, dialogStyle, getString(R.string.dialog_sid_250x250));
+        dialogAd = new DialogAdV2(MainActivity.this, dialogStyle, getString(R.string.native_sid));
         dialogAd.setDialogAdListenr(new DialogAdV2.DialogAdListener() {
             @Override
             public void onFirstButtonClicked() {
