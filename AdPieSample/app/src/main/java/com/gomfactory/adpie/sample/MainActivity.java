@@ -7,7 +7,6 @@ package com.gomfactory.adpie.sample;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -23,8 +22,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gomfactory.adpie.sdk.AdPieSDK;
-import com.gomfactory.adpie.sdk.DialogAd;
-import com.gomfactory.adpie.sdk.dialog.DialogStyle;
+import com.gomfactory.adpie.sdk.DialogAdV2;
+import com.gomfactory.adpie.sdk.dialog.DialogStyleV2;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private long lastTimeSelected = 0;
 
-    private DialogAd dialogAd;
+    private DialogAdV2 dialogAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +90,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DialogStyle dialogStyle = new DialogStyle.Builder()
-                .setAdSize(DialogStyle.DIALOG_SIZE_250x250) // 필수
-                .setDefaultImageResId(R.drawable.coffee_500x500) // 필수
+        DialogStyleV2 dialogStyle = new DialogStyleV2.Builder()
+                .setTitle("애드파이")
+                .setIconImageResId(R.drawable.adpie_logo)
+                .setDescription("애드파이는 전문적인 모바일 광고 플랫폼으로 광고 효율을 최적화하고 높은 수익을 얻을 수 있습니다!")
+                .setMainImageResId(R.drawable.adpie_1200x627)
+                .setCtaButtonText("방문하기")
+                .setClickUrl("http://www.adpies.com")
                 .build();
 
-        dialogAd = new DialogAd(MainActivity.this, dialogStyle, getString(R.string.dialog_sid_250x250));
-        dialogAd.setDialogAdListenr(new DialogAd.DialogAdListener() {
+        dialogAd = new DialogAdV2(MainActivity.this, dialogStyle, getString(R.string.dialog_sid_250x250));
+        dialogAd.setDialogAdListenr(new DialogAdV2.DialogAdListener() {
             @Override
             public void onFirstButtonClicked() {
+                // 다이얼로그 광고 요청
+                dialogAd.loadAd();
             }
 
             @Override
@@ -131,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
                 // 다이얼로그 취소 이벤트 발생
+                // 다이얼로그 광고 요청
+                dialogAd.loadAd();
             }
         });
         dialogAd.setOnDismissListener(new DialogInterface.OnDismissListener() {
@@ -145,13 +152,17 @@ public class MainActivity extends AppCompatActivity {
                 // 다이얼로그 표출 이벤트 발생
             }
         });
+
+        // 다이얼로그 광고 요청
+        dialogAd.loadAd();
     }
 
     @Override
     protected void onDestroy() {
         if (dialogAd != null) {
             // 다이얼로그 종료
-            dialogAd.dismiss();
+            dialogAd.destroy();
+            dialogAd = null;
         }
 
         super.onDestroy();
@@ -167,15 +178,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        // 회전 앱의 경우 필수 구현
-        if (dialogAd != null) {
-            dialogAd.dismiss();
-        }
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//
+//        /* 회전 앱의 경우 필수 구현 (V1)
+//        if (dialogAd != null) {
+//            dialogAd.dismiss();
+//        }
+//        */
+//    }
 
     private class ListViewItem {
         private Drawable iconDrawable;
