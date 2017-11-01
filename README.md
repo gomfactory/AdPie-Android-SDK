@@ -6,7 +6,7 @@ AdPie SDK를 찾아주셔서 감사합니다.
 [http://my.adpies.com](http://my.adpies.com)
 
 # SDK 연동
-SDK 연동문서는 [wiki](https://github.com/gomfactory/AdPie-Android-SDK/wiki) 에서 찾을 수 있습니다.
+SDK 연동은 [연동가이드](https://github.com/gomfactory/AdPie-Android-SDK/wiki) 에서 확인할 수 있습니다.
 
 # 변경내역
 [Change Log](https://github.com/gomfactory/AdPie-Android-SDK/blob/master/CHANGELOG.md) 를 통해 변경내역을 확인할 수 있습니다.
