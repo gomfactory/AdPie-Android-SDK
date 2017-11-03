@@ -19,7 +19,13 @@ buildscript {
 
 allprojects {
     repositories {
+        // Google Maven Repository (Gradle 4.1 이상)
         google()
+        /* Google Maven Repository (Gradle 4.1 미만)
+        maven {
+            url "https://maven.google.com"
+        }
+        */
         jcenter()
     }
 }
