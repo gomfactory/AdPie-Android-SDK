@@ -27,6 +27,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
+
+    // AdPie SDK
     implementation ('com.gomfactory:adpie:+')
+
+    // Google Play Services SDK (required)
     implementation 'com.google.android.gms:play-services-ads:11.4.2'
+
+    // Image Module for AdPie Native Ad (optional)
+    implementation 'com.github.bumptech.glide:glide:4.3.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.3.0'
 }
