@@ -10,6 +10,4 @@
     <string name="native_sid">57bd1f3f7174ea576fa3c3a3</string>
     <string name="interstitial_video_sid">58f99962affeaa4201970fa6</string>
     <string name="preroll_video_sid">58f99984affeaa4201970fa8</string>
-    <string name="dialog_sid_250x250">599d0f3e7174ea27cfd97f7e</string>
-    <string name="dialog_sid_300x250">599d0f53affeaa6a4435c4c6</string>
 </resources>

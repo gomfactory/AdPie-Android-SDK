@@ -5,12 +5,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     defaultConfig {
         applicationId "com.gomfactory.adpie.sample"
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -25,14 +25,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
 
     // AdPie SDK
     implementation ('com.gomfactory:adpie:+')
 
     // Google Play Services SDK (required)
-    implementation 'com.google.android.gms:play-services-ads:11.4.2'
+    implementation 'com.google.android.gms:play-services-ads:11.6.2'
 
     // Image Module for AdPie Native Ad (optional)
     implementation 'com.github.bumptech.glide:glide:4.3.0'
