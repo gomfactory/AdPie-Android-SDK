@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
                 "Interstitial Ad", "전면 광고");
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
-                "Native Ad", "네이티브 광고");
+                "Native Ad", "네이티브 광고 (이미지)");
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
+                "Native Ad", "네이티브 광고 (비디오)");
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
                 "Video Ad", "비디오 광고 (Pre-Roll / FullScreen)");
 
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.startActivity(intent);
                         break;
                     case 3:
+                        intent = new Intent(MainActivity.this, NativeAdVideoActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                    case 4:
                         intent = new Intent(MainActivity.this, VideoAdActivity.class);
                         MainActivity.this.startActivity(intent);
                         break;

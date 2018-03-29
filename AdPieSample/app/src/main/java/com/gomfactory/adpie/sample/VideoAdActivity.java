@@ -22,7 +22,7 @@ import com.gomfactory.adpie.sdk.AdPieError;
 import com.gomfactory.adpie.sdk.AdPieSDK;
 import com.gomfactory.adpie.sdk.InterstitialAd;
 import com.gomfactory.adpie.sdk.PrerollVideoAd;
-import com.gomfactory.adpie.sdk.common.Constants;
+import com.gomfactory.adpie.sdk.videoads.VideoAdPlaybackListener;
 import com.gomfactory.adpie.sdk.videoads.VideoAdView;
 
 public class VideoAdActivity  extends AppCompatActivity {
@@ -96,20 +96,43 @@ public class VideoAdActivity  extends AppCompatActivity {
             }
 
             @Override
+            public void onAdClicked() {
+                printMessage(VideoAdActivity.this, "Preroll onAdClicked");
+            }
+        });
+
+        prerollVideoAd.setVideoAdPlaybackListener(new VideoAdPlaybackListener() {
+            @Override
             public void onVideoAdStarted() {
                 printMessage(VideoAdActivity.this, "Preroll onVideoAdStarted");
             }
 
             @Override
-            public void onVideoAdClicked() {
-                printMessage(VideoAdActivity.this, "Preroll onVideoAdClicked");
+            public void onVideoAdPaused() {
+                printMessage(VideoAdActivity.this, "Preroll onVideoAdPaused");
             }
 
             @Override
-            public void onVideoAdCompleted(Constants.VideoCompletionState videoCompletionState) {
+            public void onVideoAdStopped() {
+                printMessage(VideoAdActivity.this, "Preroll onVideoAdStopped");
+                playCustomVideo();
+            }
 
-                printMessage(VideoAdActivity.this, "Preroll onVideoAdCompleted : " + videoCompletionState);
+            @Override
+            public void onVideoAdSkipped() {
+                printMessage(VideoAdActivity.this, "Preroll onVideoAdSkipped");
+                playCustomVideo();
+            }
 
+            @Override
+            public void onVideoAdError() {
+                printMessage(VideoAdActivity.this, "Preroll onVideoAdError");
+                playCustomVideo();
+            }
+
+            @Override
+            public void onVideoAdCompleted() {
+                printMessage(VideoAdActivity.this, "Preroll onVideoAdCompleted");
                 playCustomVideo();
             }
         });
@@ -163,15 +186,35 @@ public class VideoAdActivity  extends AppCompatActivity {
             }
         });
 
-        interstitialAd.setVideoAdPlaybackListener(new InterstitialAd.VideoAdPlaybackListener() {
+        interstitialAd.setVideoAdPlaybackListener(new VideoAdPlaybackListener() {
             @Override
             public void onVideoAdStarted() {
                 printMessage(VideoAdActivity.this, "Interstitial onVideoAdStarted");
             }
 
             @Override
-            public void onVideoAdCompleted(Constants.VideoCompletionState videoCompletionState) {
-                printMessage(VideoAdActivity.this, "Interstitial onVideoAdCompleted : " + videoCompletionState);
+            public void onVideoAdPaused() {
+                printMessage(VideoAdActivity.this, "Interstitial onVideoAdPaused");
+            }
+
+            @Override
+            public void onVideoAdStopped() {
+                printMessage(VideoAdActivity.this, "Interstitial onVideoAdStopped");
+            }
+
+            @Override
+            public void onVideoAdSkipped() {
+                printMessage(VideoAdActivity.this, "Interstitial onVideoAdSkipped");
+            }
+
+            @Override
+            public void onVideoAdError() {
+                printMessage(VideoAdActivity.this, "Interstitial onVideoAdError");
+            }
+
+            @Override
+            public void onVideoAdCompleted() {
+                printMessage(VideoAdActivity.this, "Interstitial onVideoAdCompleted");
             }
         });
 
