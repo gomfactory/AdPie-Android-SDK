@@ -39,7 +39,7 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 
     // MoPub SDK
-    compile('com.mopub:mopub-sdk:4.20.0@aar') {
+    implementation('com.mopub:mopub-sdk:4.20.0@aar') {
         transitive = true
         exclude module: 'libAvid-mopub' // To exclude AVID
         exclude module: 'moat-mobile-app-kit' // To exclude Moat
