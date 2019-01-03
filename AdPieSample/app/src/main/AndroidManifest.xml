@@ -30,8 +30,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name="com.gomfactory.adpie.sdk.InterstitialActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@android:style/Theme.Translucent" />
+            android:configChanges="keyboardHidden|orientation|screenSize" />
 
         <activity android:name="com.gomfactory.adpie.sdk.videoads.VideoFullScreenActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
