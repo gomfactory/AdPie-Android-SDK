@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     // AdPie SDK
-    implementation ('com.gomfactory:adpie:1.6.3+')
+    implementation ('com.gomfactory:adpie:1.7.3')
 
     // Google Play Services SDK (required)
     implementation 'com.google.android.gms:play-services-ads:17.2.0'

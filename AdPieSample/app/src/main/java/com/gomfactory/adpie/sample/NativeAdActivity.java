@@ -83,6 +83,7 @@ public class NativeAdActivity extends AppCompatActivity {
                 .setMainId(R.id.native_ad_main)
                 .setIconImageId(R.id.native_ad_icon)
                 .setCallToActionId(R.id.native_ad_cta)
+                .setOptOutId(R.id.native_optout)
                 .build();
 
         nativeAd = new NativeAd(this, viewBinder);

@@ -28,8 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/native_ad_icon"
-            android:layout_toEndOf="@+id/native_ad_icon"
+            android:layout_toRightOf="@id/native_ad_icon"
+            android:layout_toEndOf="@id/native_ad_icon"
             android:layout_alignWithParentIfMissing="true"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/native_top"
+        android:layout_below="@id/native_top"
         android:layout_alignWithParentIfMissing="true"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
@@ -61,9 +61,18 @@
         android:id="@+id/native_ad_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/native_ad_description"
+        android:layout_below="@id/native_ad_description"
         android:layout_alignWithParentIfMissing="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/native_optout"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true" />
 
     <Button
         android:id="@+id/native_ad_cta"
@@ -71,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/native_ad_main"
+        android:layout_below="@id/native_ad_main"
         android:layout_alignWithParentIfMissing="true"
         android:background="@color/accent"
         android:textColor="@color/primary_text"/>
