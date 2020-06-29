@@ -13,7 +13,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_video">
+    tools:showIn="@layout/activity_preroll_video">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,25 +40,19 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/text_preroll_slot"
+            android:id="@+id/text_slot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/text_media_id"
             android:text="" />
 
-        <TextView
-            android:id="@+id/text_interstitial_slot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/text_preroll_slot"
-            android:text="" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/text_interstitial_slot"
+            android:layout_below="@id/text_slot"
             android:layout_marginTop="10dp"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:weightSum="1">
 
             <FrameLayout
@@ -82,31 +76,14 @@
 
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_bottom"
+            <Button
+                android:id="@+id/button_preroll_play"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/button_preroll_play"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Play Video (Pre-Roll)"
-                    android:textAllCaps="false" />
-
-                <Button
-                    android:id="@+id/button_inters_play"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Play Video (Interstitial)"
-                    android:textAllCaps="false" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Play Video"
+                android:textAllCaps="false" />
         </LinearLayout>
 
     </RelativeLayout>

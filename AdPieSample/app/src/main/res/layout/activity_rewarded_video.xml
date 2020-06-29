@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright (c) 2016 GomFactory, Inc. All Rights Reserved.
+  ~ Copyright (c) 2017 GomFactory, Inc. All Rights Reserved.
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -25,6 +25,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_native" />
+    <include layout="@layout/content_rewarded_video" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

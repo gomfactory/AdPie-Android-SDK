@@ -5,9 +5,10 @@
 package com.gomfactory.adpie.mediation.mopub;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.gomfactory.adpie.sdk.AdPieError;
 import com.gomfactory.adpie.sdk.NativeAd;
@@ -149,9 +150,7 @@ public class AdPieNative extends CustomEventNative {
                 setPrivacyInformationIconImageUrl(nativeAdData.getOptoutImageUrl());
             }
 
-            addImpressionTracker(nativeAdData.getImpUrl());
             addImpressionTrackers(new JSONArray(nativeAdData.getTrackingImpUrls()));
-            addClickTracker(nativeAdData.getClkUrl());
             addClickTrackers(new JSONArray(nativeAdData.getTrackingClkUrls()));
 
             final List<String> imageUrls = new ArrayList<>();

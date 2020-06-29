@@ -9,9 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
                 "Native Ad", "네이티브 광고 (비디오)");
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
-                "Video Ad", "비디오 광고 (Pre-Roll / FullScreen)");
+                "Pre-Roll Video Ad", "프리롤 비디오 광고");
+        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
+                "Rewarded Video Ad", "리워드 비디오 광고");
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(MainActivity.this, VideoAdActivity.class);
+                        intent = new Intent(MainActivity.this, PrerollVideoAdActivity.class);
+                        MainActivity.this.startActivity(intent);
+                        break;
+                    case 5:
+                        intent = new Intent(MainActivity.this, RewardedVideoAdActivity.class);
                         MainActivity.this.startActivity(intent);
                         break;
                 }
