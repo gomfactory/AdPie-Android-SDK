@@ -11,6 +11,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.gomfactory.adpie.sdk.AdPieError;
+import com.gomfactory.adpie.sdk.AdPieSDK;
 import com.gomfactory.adpie.sdk.NativeAd;
 import com.gomfactory.adpie.sdk.nativeads.NativeAdData;
 import com.gomfactory.adpie.sdk.nativeads.NativeAdView;
@@ -28,11 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.CUSTOM;
+
 public class AdPieNative extends CustomEventNative {
 
+    private static final String ADAPTER_NAME = AdPieNative.class.getSimpleName();
+
+    private static final String APP_ID_KEY = "app_id";
     private static final String SLOT_ID_KEY = "slotId";
 
     private CustomEventNativeListener mCustomEventNativeListener;
+
+    private String mSlotId;
 
     @Override
     protected void loadNativeAd(@NonNull Context context, @NonNull CustomEventNativeListener customEventNativeListener,
@@ -40,17 +48,22 @@ public class AdPieNative extends CustomEventNative {
 
         mCustomEventNativeListener = customEventNativeListener;
 
-        if (TextUtils.isEmpty(serverExtras.get(SLOT_ID_KEY))) {
+        if (TextUtils.isEmpty(serverExtras.get(APP_ID_KEY)) || TextUtils.isEmpty(serverExtras.get(SLOT_ID_KEY))) {
             if (customEventNativeListener != null) {
                 mCustomEventNativeListener.onNativeAdFailed(NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR);
             }
             return;
         }
 
-        String slotId = serverExtras.get(SLOT_ID_KEY);
+        String appId = serverExtras.get(APP_ID_KEY);
+        if (!AdPieSDK.getInstance().isInitialized()) {
+            AdPieSDK.getInstance().initialize(context, appId);
+        }
+
+        mSlotId = serverExtras.get(SLOT_ID_KEY);
 
         NativeAd nativeAd = new NativeAd(context, null);
-        nativeAd.setSlotId(slotId);
+        nativeAd.setSlotId(mSlotId);
         nativeAd.setSkipDownload(true);
 
         AdPieNativeAd adPieNativeAd =
@@ -126,7 +139,7 @@ public class AdPieNative extends CustomEventNative {
         @Override
         public void onAdLoaded(NativeAdView nativeAdView) {
 
-            MoPubLog.d("AdPie onAdLoaded");
+            MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "AdPie onAdLoaded");
 
             NativeAdData nativeAdData = nativeAdView.getNativeAdData();
 
@@ -166,7 +179,7 @@ public class AdPieNative extends CustomEventNative {
             NativeImageHelper.preCacheImages(mContext, imageUrls, new NativeImageHelper.ImageListener() {
                 @Override
                 public void onImagesCached() {
-                    MoPubLog.d("AdPie onImagesCached");
+                    MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "AdPie onImagesCached");
                     if (mCustomEventNativeListener != null) {
                         mCustomEventNativeListener.onNativeAdLoaded(AdPieNativeAd.this);
                     }
@@ -208,17 +221,21 @@ public class AdPieNative extends CustomEventNative {
                 }
             }
 
-            MoPubLog.d("AdPie onAdFailedToLoad : " + AdPieError.getMessage(errorCode));
+            MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "AdPie onAdFailedToLoad : " + AdPieError.getMessage(errorCode));
         }
 
         @Override
         public void onAdShown() {
-            MoPubLog.d("AdPie onAdShown");
+            MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "AdPie onAdShown");
         }
 
         @Override
         public void onAdClicked() {
-            MoPubLog.d("AdPie onAdClicked");
+            MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "AdPie onAdClicked");
+        }
+
+        private String getAdNetworkId() {
+            return mSlotId;
         }
     }
 }

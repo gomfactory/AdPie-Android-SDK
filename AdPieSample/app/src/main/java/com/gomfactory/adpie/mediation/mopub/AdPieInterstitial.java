@@ -1,119 +1,181 @@
-/*******************************************************************************
- * Copyright (c) 2018 GomFactory, Inc. All Rights Reserved.
- ******************************************************************************/
-
 package com.gomfactory.adpie.mediation.mopub;
 
+import android.app.Activity;
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.gomfactory.adpie.sdk.AdPieError;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.gomfactory.adpie.sdk.AdPieSDK;
 import com.gomfactory.adpie.sdk.InterstitialAd;
+import com.mopub.common.LifecycleListener;
+import com.mopub.common.Preconditions;
 import com.mopub.common.logging.MoPubLog;
-import com.mopub.mobileads.CustomEventInterstitial;
+import com.mopub.mobileads.AdData;
+import com.mopub.mobileads.BaseAd;
 import com.mopub.mobileads.MoPubErrorCode;
 
 import java.util.Map;
 
-public class AdPieInterstitial extends CustomEventInterstitial {
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.CLICKED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.CUSTOM;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_FAILED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.LOAD_SUCCESS;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_FAILED;
+import static com.mopub.common.logging.MoPubLog.AdapterLogEvent.SHOW_SUCCESS;
 
-    private static final String SLOT_ID_KEY = "slotId";
+public class AdPieInterstitial extends BaseAd implements InterstitialAd.InterstitialAdListener {
 
-    private CustomEventInterstitial.CustomEventInterstitialListener mInterstitialListener;
-    private InterstitialAd mInterstitialAd;
+    private static final String ADAPTER_NAME = AdPieInterstitial.class.getSimpleName();
 
-    @Override
-    protected void loadInterstitial(Context context, CustomEventInterstitialListener customEventInterstitialListener,
-                                    Map<String, Object> localExtras, Map<String, String> serverExtras) {
+    private static final String APP_ID_KEY = "app_id";
+    private static final String SLOT_ID_KEY = "slot_id";
 
-        mInterstitialListener = customEventInterstitialListener;
+    private InterstitialAd mInterstitial;
+    private String mAppID;
+    private String mSlotID;
 
-        if (TextUtils.isEmpty(serverExtras.get(SLOT_ID_KEY))) {
-            if (mInterstitialListener != null) {
-                mInterstitialListener.onInterstitialFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
-            }
-            return;
-        }
-
-        String slotId = serverExtras.get(SLOT_ID_KEY);
-
-        mInterstitialAd = new InterstitialAd(context, slotId);
-        mInterstitialAd.setAdListener(new InterstitialAd.InterstitialAdListener() {
-            @Override
-            public void onAdLoaded() {
-                if (mInterstitialListener != null) {
-                    mInterstitialListener.onInterstitialLoaded();
-                }
-                MoPubLog.d("AdPie onAdLoaded");
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                if (mInterstitialListener != null) {
-                    switch (errorCode) {
-                        case AdPieError.NO_FILL:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.NO_FILL);
-                            break;
-                        case AdPieError.INVALID_REQUEST:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
-                            break;
-                        case AdPieError.NETWORK_ERROR:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.NETWORK_INVALID_STATE);
-                            break;
-                        case AdPieError.NO_CONNECTION:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.NO_CONNECTION);
-                            break;
-                        case AdPieError.INTERNAL_ERROR:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.INTERNAL_ERROR);
-                            break;
-                        default:
-                            mInterstitialListener.onInterstitialFailed(MoPubErrorCode.UNSPECIFIED);
-                            break;
-                    }
-                }
-
-                MoPubLog.d("AdPie onAdFailedToLoad : " + AdPieError.getMessage(errorCode));
-            }
-
-            @Override
-            public void onAdShown() {
-                if (mInterstitialListener != null) {
-                    mInterstitialListener.onInterstitialShown();
-                }
-                MoPubLog.d("AdPie onAdShown");
-            }
-
-            @Override
-            public void onAdClicked() {
-                if (mInterstitialListener != null) {
-                    mInterstitialListener.onInterstitialClicked();
-                }
-                MoPubLog.d("AdPie onAdClicked");
-            }
-
-            @Override
-            public void onAdDismissed() {
-                if (mInterstitialListener != null) {
-                    mInterstitialListener.onInterstitialDismissed();
-                }
-                MoPubLog.d("AdPie onAdDismissed");
-            }
-        });
-        mInterstitialAd.load();
+    public AdPieInterstitial() {
     }
 
     @Override
-    protected void showInterstitial() {
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
+    protected void load(@NonNull Context context, @NonNull AdData adData) throws Exception {
+
+        if (!extrasAreValid(context, adData)) {
+            mLoadListener.onAdLoadFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+            return;
+        }
+
+        if (mInterstitial != null) {
+            mInterstitial.destroy();
+            mInterstitial = null;
+        }
+
+        mInterstitial = new InterstitialAd(context, mSlotID);
+        mInterstitial.setAdListener(this);
+
+        MoPubLog.log(getAdNetworkId(), LOAD_ATTEMPTED, ADAPTER_NAME);
+
+        mInterstitial.load();
+    }
+
+    @Override
+    protected void show() {
+        MoPubLog.log(getAdNetworkId(), SHOW_ATTEMPTED, ADAPTER_NAME);
+
+        if (mInterstitial.isLoaded()) {
+            mInterstitial.show();
+        } else {
+            MoPubLog.log(getAdNetworkId(), SHOW_FAILED, ADAPTER_NAME,
+                    MoPubErrorCode.NETWORK_NO_FILL.getIntCode(), MoPubErrorCode.NETWORK_NO_FILL);
+
+            if (mInteractionListener != null) {
+                mInteractionListener.onAdFailed(MoPubErrorCode.NETWORK_NO_FILL);
+            }
         }
     }
 
     @Override
     protected void onInvalidate() {
-        if (mInterstitialAd != null) {
-            mInterstitialAd.destroy();
-            mInterstitialAd = null;
+        if (mInterstitial != null) {
+            mInterstitial.destroy();
+            mInterstitial = null;
         }
+    }
+
+    @Nullable
+    @Override
+    protected LifecycleListener getLifecycleListener() {
+        return null;
+    }
+
+    @NonNull
+    @Override
+    protected String getAdNetworkId() {
+        return mSlotID == null ? "" : mSlotID;
+    }
+
+    @Override
+    protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity,
+                                            @NonNull AdData adData) throws Exception {
+        if (extrasAreValid(launcherActivity, adData)) {
+            if (!AdPieSDK.getInstance().isInitialized()) {
+                AdPieSDK.getInstance().initialize(launcherActivity, mAppID);
+            }
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public void onAdLoaded() {
+        MoPubLog.log(getAdNetworkId(), LOAD_SUCCESS, ADAPTER_NAME);
+
+        if (mLoadListener != null) {
+            mLoadListener.onAdLoaded();
+        }
+    }
+
+    @Override
+    public void onAdFailedToLoad(int errorCode) {
+        MoPubLog.log(getAdNetworkId(), LOAD_FAILED, ADAPTER_NAME,
+                MoPubErrorCode.NETWORK_NO_FILL.getIntCode(), MoPubErrorCode.NETWORK_NO_FILL);
+        MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "Failed to load ads with errorCode: " + errorCode);
+
+        if (mLoadListener != null) {
+            mLoadListener.onAdLoadFailed(MoPubErrorCode.NETWORK_NO_FILL);
+        }
+    }
+
+    @Override
+    public void onAdShown() {
+        MoPubLog.log(getAdNetworkId(), SHOW_SUCCESS, ADAPTER_NAME);
+
+        if (mInteractionListener != null) {
+            mInteractionListener.onAdShown();
+        }
+    }
+
+    @Override
+    public void onAdClicked() {
+        MoPubLog.log(getAdNetworkId(), CLICKED, ADAPTER_NAME);
+
+        if (mInteractionListener != null) {
+            mInteractionListener.onAdClicked();
+        }
+    }
+
+    @Override
+    public void onAdDismissed() {
+        if (mInteractionListener != null) {
+            mInteractionListener.onAdDismissed();
+        }
+    }
+
+    private boolean extrasAreValid(@NonNull Context context,
+                                   @NonNull AdData adData) {
+        Preconditions.checkNotNull(context);
+        Preconditions.checkNotNull(adData);
+
+        final Map<String, String> extras = adData.getExtras();
+        if (extras.isEmpty()) {
+            MoPubLog.log(getAdNetworkId(), CUSTOM, ADAPTER_NAME, "Server data is null or empty.");
+
+            if (mLoadListener != null) {
+                mLoadListener.onAdLoadFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+                return false;
+            }
+        }
+
+        if (extras.containsKey(APP_ID_KEY) && extras.containsKey(SLOT_ID_KEY)) {
+            mAppID = extras.get(APP_ID_KEY);
+            mSlotID = extras.get(SLOT_ID_KEY);
+            return true;
+        }
+
+        return false;
     }
 }
