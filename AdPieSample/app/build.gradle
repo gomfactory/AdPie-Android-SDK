@@ -5,12 +5,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.gomfactory.adpie.sample"
         minSdkVersion 19 // AdPie : 14, MoPub : 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -27,6 +27,12 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
@@ -36,7 +42,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // AdPie SDK
-    implementation ('com.gomfactory:adpie:1.8.3')
+    implementation 'com.github.adxcorp:adpie-android-sdk:1.9.0'
 
     // Google Play Services SDK (required)
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
