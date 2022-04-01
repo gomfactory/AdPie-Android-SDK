@@ -50,11 +50,4 @@ dependencies {
     // Image Module for AdPie Native Ad (optional)
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-
-    // MoPub SDK
-    implementation('com.mopub:mopub-sdk:5.13.1@aar') {
-        transitive = true
-        exclude module: 'libAvid-mopub' // To exclude AVID
-        exclude module: 'moat-mobile-app-kit' // To exclude Moat
-    }
 }
