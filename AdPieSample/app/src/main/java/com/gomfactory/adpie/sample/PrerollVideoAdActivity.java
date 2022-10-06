@@ -101,6 +101,9 @@ public class PrerollVideoAdActivity extends AppCompatActivity {
             @Override
             public void onVideoAdStarted() {
                 printMessage(PrerollVideoAdActivity.this, "Preroll onVideoAdStarted");
+
+                // 필요한 경우 비디오 음소거 처리 (음소거 토글 기능에 대한 UI 개별 구현 필요)
+                // videoAdView.mute();
             }
 
             @Override
