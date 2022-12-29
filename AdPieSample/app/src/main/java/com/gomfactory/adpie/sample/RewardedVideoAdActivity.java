@@ -92,6 +92,11 @@ public class RewardedVideoAdActivity extends AppCompatActivity {
             }
         });
 
+        // Insert your SSV User Id (Optional)
+        rewardedVideoAd.setUserIdForSSV("");
+        // Insert your SSV Custom Data (Optional)
+        rewardedVideoAd.setCustomDataForSSV("");
+
         Button btnRvLoad = (Button) findViewById(R.id.button_rv_load);
         btnRvLoad.setOnClickListener(new View.OnClickListener() {
 

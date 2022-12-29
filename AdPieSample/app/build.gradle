@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.gomfactory.adpie.sample"
-        minSdkVersion 19 // AdPie : 14, MoPub : 19
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -42,7 +42,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // AdPie SDK
-    implementation 'com.github.adxcorp:adpie-android-sdk:1.9.8'
+    implementation 'com.github.adxcorp:adpie-android-sdk:1.9.9'
 
     // Google Play Services SDK (required)
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
