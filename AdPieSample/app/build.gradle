@@ -44,4 +44,7 @@ dependencies {
     // Image Module for AdPie Native Ad (optional)
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    // AppLovin SDK (compile only)
+    compileOnly 'com.applovin:applovin-sdk:11.6.1'
 }
