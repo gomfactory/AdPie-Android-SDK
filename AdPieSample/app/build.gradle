@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.github.adxcorp:adpie-android-sdk:1.12.1'
 
     // Google Play Services SDK (required)
-    implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.google.android.gms:play-services-ads:21.3.0'
 
     // Image Module for AdPie Native Ad (optional)
     implementation 'com.github.bumptech.glide:glide:4.10.0'
