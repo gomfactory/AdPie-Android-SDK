@@ -5,12 +5,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.gomfactory.adpie.sample"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -36,7 +36,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // AdPie SDK
-    implementation 'com.github.adxcorp:adpie-android-sdk:1.13.1'
+    implementation 'com.github.adxcorp:adpie-android-sdk:1.13.2'
 
     // Google Play Services SDK (required)
     implementation 'com.google.android.gms:play-services-ads:21.3.0'
