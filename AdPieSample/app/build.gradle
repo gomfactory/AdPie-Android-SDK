@@ -5,12 +5,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.gomfactory.adpie.sample"
         minSdkVersion 19
-        targetSdkVersion 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
