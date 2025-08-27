@@ -171,10 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 if (dialogAd != null) {
                     dialogAd.show();
                 } else {
-                    // 더 이상 가로채지 않고 기본 동작 수행
-                    setEnabled(false);    // 중요: 재진입 방지
-                    getOnBackPressedDispatcher().onBackPressed();
-                    // 또는 finish();
+                    finish();
                 }
             }
         });
