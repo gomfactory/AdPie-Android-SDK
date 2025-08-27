@@ -10,9 +10,14 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +42,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         // Insert your AdPie-Media-ID
         AdPieSDK.getInstance().initialize(getApplicationContext(), getString(R.string.mid));
-
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         ListViewAdapter adapter = new ListViewAdapter();
         ListView listview = (ListView) findViewById(R.id.listview);
@@ -54,11 +62,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
                 "Interstitial Ad", "전면 광고");
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
-                "Native Ad", "네이티브 광고 (이미지)");
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
-                "Native Ad", "네이티브 광고 (비디오)");
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
-                "Pre-Roll Video Ad", "프리롤 비디오 광고");
+                "Native Ad", "네이티브 광고");
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.adpie_logo),
                 "Rewarded Video Ad", "리워드 비디오 광고");
 
@@ -88,14 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(MainActivity.this, NativeAdVideoActivity.class);
-                        MainActivity.this.startActivity(intent);
-                        break;
-                    case 4:
-                        intent = new Intent(MainActivity.this, PrerollVideoAdActivity.class);
-                        MainActivity.this.startActivity(intent);
-                        break;
-                    case 5:
                         intent = new Intent(MainActivity.this, RewardedVideoAdActivity.class);
                         MainActivity.this.startActivity(intent);
                         break;
@@ -168,6 +164,20 @@ public class MainActivity extends AppCompatActivity {
 
         // 다이얼로그 광고 요청
         dialogAd.loadAd();
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (dialogAd != null) {
+                    dialogAd.show();
+                } else {
+                    // 더 이상 가로채지 않고 기본 동작 수행
+                    setEnabled(false);    // 중요: 재진입 방지
+                    getOnBackPressedDispatcher().onBackPressed();
+                    // 또는 finish();
+                }
+            }
+        });
     }
 
     @Override
@@ -180,27 +190,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onDestroy();
     }
-
-    @Override
-    public void onBackPressed() {
-        if (dialogAd != null) {
-            // 다이얼로그 표출
-            dialogAd.show();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//        /* 회전 앱의 경우 필수 구현 (V1)
-//        if (dialogAd != null) {
-//            dialogAd.dismiss();
-//        }
-//        */
-//    }
 
     private class ListViewItem {
         private Drawable iconDrawable;

@@ -52,7 +52,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@color/accent"
             android:padding="5dp"
             android:text="Request Interstitial AD"
             android:textColor="@color/primary_text" />

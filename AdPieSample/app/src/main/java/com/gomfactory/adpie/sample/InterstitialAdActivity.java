@@ -7,9 +7,12 @@ package com.gomfactory.adpie.sample;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +22,8 @@ import android.widget.Toast;
 import com.gomfactory.adpie.sdk.AdPieError;
 import com.gomfactory.adpie.sdk.AdPieSDK;
 import com.gomfactory.adpie.sdk.InterstitialAd;
+import com.gomfactory.adpie.sdk.videoads.FinishState;
+import com.gomfactory.adpie.sdk.videoads.VideoAdPlaybackListener;
 
 public class InterstitialAdActivity extends AppCompatActivity
         implements InterstitialAd.InterstitialAdListener {
@@ -33,19 +38,12 @@ public class InterstitialAdActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_interstitial);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        toolbar.setNavigationIcon(ContextCompat.getDrawable(this, R.drawable.ic_arrow_back_white_24dp));
-        toolbar.setTitle("Interstitial Ad");
-
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
         });
 
         TextView tvName = (TextView) findViewById(R.id.text_app_name);
@@ -63,6 +61,17 @@ public class InterstitialAdActivity extends AppCompatActivity
         // Insert your AdPie-Slot-ID
         interstitialAd = new InterstitialAd(this, getString(R.string.interstitial_sid));
         interstitialAd.setAdListener(this);
+        interstitialAd.setVideoAdPlaybackListener(new VideoAdPlaybackListener() {
+            @Override
+            public void onVideoAdStarted() {
+                printMessage(InterstitialAdActivity.this, "Interstitial onVideoAdStarted");
+            }
+
+            @Override
+            public void onVideoFinished(FinishState finishState) {
+                printMessage(InterstitialAdActivity.this, "Interstitial onVideoFinished : " + finishState);
+            }
+        });
 
         button = (Button) findViewById(R.id.button_interstitial_ad);
         button.setOnClickListener(new View.OnClickListener() {
