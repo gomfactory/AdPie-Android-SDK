@@ -247,6 +247,11 @@ public class AdPieMediationAdapter extends MediationAdapterBase
                                 listener.onInterstitialAdHidden();
                             }
                         }
+
+                        @Override
+                        public void onAdFailedToShow() {
+                            listener.onInterstitialAdDisplayFailed(MaxAdapterError.AD_DISPLAY_FAILED);
+                        }
                     });
 
                     mInterstitialAd.load();
@@ -341,17 +346,13 @@ public class AdPieMediationAdapter extends MediationAdapterBase
                         public void onRewardedVideoStarted() {
                             if (listener != null) {
                                 listener.onRewardedAdDisplayed();
-                                listener.onRewardedAdVideoStarted();
                             }
                         }
 
                         @Override
                         public void onRewardedVideoFinished(FinishState finishState) {
-
                             if (finishState == FinishState.COMPLETED) {
                                 if (listener != null) {
-                                    listener.onRewardedAdVideoCompleted();
-
                                     MaxReward reward = getReward();
                                     listener.onUserRewarded(reward);
                                 }

@@ -138,4 +138,9 @@ public class AdPieInterstitialLoader implements MediationInterstitialAd, Interst
     public void onAdDismissed() {
         interstitialAdCallback.onAdClosed();
     }
+
+    @Override
+    public void onAdFailedToShow() {
+        interstitialAdCallback.onAdFailedToShow(new AdError(0, "Failed To show", ""));
+    }
 }

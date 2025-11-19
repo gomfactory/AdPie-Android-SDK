@@ -14,24 +14,18 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.gomfactory.adpie.sdk.AdPieError;
 import com.gomfactory.adpie.sdk.AdPieSDK;
-import com.gomfactory.adpie.sdk.RewardedVideoAd;
-import com.gomfactory.adpie.sdk.videoads.FinishState;
+import com.gomfactory.adpie.sdk.RewardedAd;
 
-public class RewardedVideoAdActivity extends AppCompatActivity {
+public class RewardedAdActivity extends AppCompatActivity {
 
-    public static final String TAG = RewardedVideoAdActivity.class.getSimpleName();
+    public static final String TAG = RewardedAdActivity.class.getSimpleName();
 
-    private RewardedVideoAd rewardedVideoAd;
+    private RewardedAd rewardedVideoAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +33,7 @@ public class RewardedVideoAdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_rewarded_video);
+        setContentView(R.layout.activity_rewarded);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -59,36 +53,41 @@ public class RewardedVideoAdActivity extends AppCompatActivity {
         tvRewardedVideoSlotId.setText("Slot ID : " + getString(R.string.rewarded_video_sid));
 
         // Insert your AdPie-Slot-ID
-        rewardedVideoAd = new RewardedVideoAd(this, getString(R.string.rewarded_video_sid));
-        rewardedVideoAd.setAdListener(new RewardedVideoAd.RewardedVideoAdListener() {
+        rewardedVideoAd = new RewardedAd(this, getString(R.string.rewarded_video_sid));
+        rewardedVideoAd.setAdListener(new RewardedAd.RewardedAdListener() {
             @Override
-            public void onRewardedVideoLoaded() {
-                printMessage(RewardedVideoAdActivity.this, "onRewardedVideoLoaded");
+            public void onAdLoaded() {
+                printMessage(RewardedAdActivity.this, "onAdLoaded");
             }
 
             @Override
-            public void onRewardedVideoFailedToLoad(int errorCode) {
-                printMessage(RewardedVideoAdActivity.this, "onRewardedVideoFailedToLoad : " + AdPieError.getMessage(errorCode));
+            public void onAdFailedToLoad(int i) {
+                printMessage(RewardedAdActivity.this, "onAdFailedToLoad");
             }
 
             @Override
-            public void onRewardedVideoClicked() {
-                printMessage(RewardedVideoAdActivity.this, "onRewardedVideoClicked");
+            public void onAdShown() {
+                printMessage(RewardedAdActivity.this, "onAdShown");
             }
 
             @Override
-            public void onRewardedVideoStarted() {
-                printMessage(RewardedVideoAdActivity.this, "onRewardedVideoStarted");
+            public void onAdClicked() {
+                printMessage(RewardedAdActivity.this, "onAdClicked");
             }
 
             @Override
-            public void onRewardedVideoFinished(FinishState finishState) {
-                printMessage(RewardedVideoAdActivity.this, "onRewardedVideoFinished : " + finishState);
+            public void onAdDismissed() {
+                printMessage(RewardedAdActivity.this, "onAdDismissed");
+            }
 
-                // reload Rewarded Video
-                if (rewardedVideoAd != null) {
-                    rewardedVideoAd.load();
-                }
+            @Override
+            public void onAdRewarded() {
+                printMessage(RewardedAdActivity.this, "onAdRewarded");
+            }
+
+            @Override
+            public void onAdFailedToShow() {
+                printMessage(RewardedAdActivity.this, "onAdFailedToShow");
             }
         });
 
@@ -116,7 +115,7 @@ public class RewardedVideoAdActivity extends AppCompatActivity {
                 if (rewardedVideoAd.isLoaded()) {
                     rewardedVideoAd.show();
                 } else {
-                    printMessage(RewardedVideoAdActivity.this, "Not ready!");
+                    printMessage(RewardedAdActivity.this, "Not ready!");
                 }
             }
         });

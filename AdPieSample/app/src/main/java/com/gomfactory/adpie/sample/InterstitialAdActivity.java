@@ -123,6 +123,11 @@ public class InterstitialAdActivity extends AppCompatActivity
         printMessage(InterstitialAdActivity.this, "Interstitial onAdDismissed");
     }
 
+    @Override
+    public void onAdFailedToShow() {
+        printMessage(InterstitialAdActivity.this, "Interstitial onAdFailedToShow");
+    }
+
 
     public void printMessage(Context context, String message) {
         Log.d(TAG, message);

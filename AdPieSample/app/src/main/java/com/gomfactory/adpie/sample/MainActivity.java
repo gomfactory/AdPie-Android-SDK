@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         MainActivity.this.startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(MainActivity.this, RewardedVideoAdActivity.class);
+                        intent = new Intent(MainActivity.this, RewardedAdActivity.class);
                         MainActivity.this.startActivity(intent);
                         break;
                 }
