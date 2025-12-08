@@ -5,7 +5,6 @@
 package com.gomfactory.adpie.sample;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -28,16 +27,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gomfactory.adpie.sdk.AdPieSDK;
-import com.gomfactory.adpie.sdk.DialogAdV2;
-import com.gomfactory.adpie.sdk.dialog.DialogStyleV2;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private long lastTimeSelected = 0;
-
-    private DialogAdV2 dialogAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,92 +94,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DialogStyleV2 dialogStyle = new DialogStyleV2.Builder()
-                .setTitle("애드파이")
-                .setIconImageResId(R.drawable.adpie_logo)
-                .setDescription("애드파이는 전문적인 모바일 광고 플랫폼으로 광고 효율을 최적화하고 높은 수익을 얻을 수 있습니다!")
-                .setMainImageResId(R.drawable.adpie_1200x627)
-                .setCtaButtonText("방문하기")
-                .setClickUrl("http://www.adpies.com")
-                .build();
-
-        dialogAd = new DialogAdV2(MainActivity.this, dialogStyle, getString(R.string.native_sid));
-        dialogAd.setDialogAdListenr(new DialogAdV2.DialogAdListener() {
-            @Override
-            public void onFirstButtonClicked() {
-                // 다이얼로그 광고 요청
-                dialogAd.loadAd();
-            }
-
-            @Override
-            public void onSecondButtonClicked() {
-                // 앱 종료
-                finish();
-            }
-
-            @Override
-            public void onThirdButtonClicked() {
-            }
-
-            @Override
-            public void onAdLoaded() {
-
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-
-            }
-
-            @Override
-            public void onAdClicked() {
-
-            }
-        });
-        dialogAd.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialogInterface) {
-                // 다이얼로그 취소 이벤트 발생
-                // 다이얼로그 광고 요청
-                dialogAd.loadAd();
-            }
-        });
-        dialogAd.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                // 다이얼로그 종료 이벤트 발생
-            }
-        });
-        dialogAd.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                // 다이얼로그 표출 이벤트 발생
-            }
-        });
-
-        // 다이얼로그 광고 요청
-        dialogAd.loadAd();
-
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (dialogAd != null) {
-                    dialogAd.show();
-                } else {
-                    finish();
-                }
+                finish();
             }
         });
     }
 
     @Override
     protected void onDestroy() {
-        if (dialogAd != null) {
-            // 다이얼로그 종료
-            dialogAd.destroy();
-            dialogAd = null;
-        }
-
         super.onDestroy();
     }
 
