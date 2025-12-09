@@ -58,8 +58,12 @@ public class InterstitialAdActivity extends AppCompatActivity
         TextView tvSlotId = (TextView) findViewById(R.id.text_slot);
         tvSlotId.setText("Slot ID : " + getString(R.string.interstitial_sid));
 
+        boolean isVideoAd = getIntent().getBooleanExtra("video", false);
+
+        String sid = isVideoAd ? getString(R.string.interstitial_video_sid) : getString(R.string.interstitial_sid);
+
         // Insert your AdPie-Slot-ID
-        interstitialAd = new InterstitialAd(this, getString(R.string.interstitial_sid));
+        interstitialAd = new InterstitialAd(this, sid);
         interstitialAd.setAdListener(this);
         interstitialAd.setVideoAdPlaybackListener(new VideoAdPlaybackListener() {
             @Override
