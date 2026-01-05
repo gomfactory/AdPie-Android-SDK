@@ -55,12 +55,11 @@ public class InterstitialAdActivity extends AppCompatActivity
         TextView tvMediaId = (TextView) findViewById(R.id.text_media_id);
         tvMediaId.setText("Media ID : " + getString(R.string.mid));
 
-        TextView tvSlotId = (TextView) findViewById(R.id.text_slot);
-        tvSlotId.setText("Slot ID : " + getString(R.string.interstitial_sid));
-
         boolean isVideoAd = getIntent().getBooleanExtra("video", false);
-
         String sid = isVideoAd ? getString(R.string.interstitial_video_sid) : getString(R.string.interstitial_sid);
+
+        TextView tvSlotId = (TextView) findViewById(R.id.text_slot);
+        tvSlotId.setText("Slot ID : " + sid);
 
         // Insert your AdPie-Slot-ID
         interstitialAd = new InterstitialAd(this, sid);
